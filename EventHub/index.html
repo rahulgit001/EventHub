@@ -1,0 +1,1206 @@
+If you mean “is the whole project done?”: not completely. The booking, staff, inventory, catering, vehicle, payment, quotation, invoice, notification, reporting, and Docker workflows are implemented and locally verified. Remaining production work includes a real payment gateway, database migrations, and browser end-to-end tests.
+
+
+Build a complete production-style full-stack web application called:
+
+"EventHub – Event Rental & Booking Management System"
+
+The application is inspired by a traditional Indian tent house/event rental business where customers book different services and rental items for weddings, birthdays, parties, religious events, corporate events and other functions.
+
+The system should modernize the complete booking process.
+
+==================================================
+1. TECH STACK
+==================================================
+
+Frontend:
+- React.js
+- TypeScript
+- Vite
+- Tailwind CSS
+- React Router
+- Redux Toolkit
+- Axios
+- React Hook Form
+- Recharts
+- Lucide React icons
+
+Backend:
+- Python
+- FastAPI
+- SQLAlchemy
+- Pydantic
+- PostgreSQL
+- JWT authentication
+- Role-based authorization
+
+Additional:
+- Docker
+- REST APIs
+- PDF invoice generation
+- Image upload
+- Search/filter/sort
+- Responsive design
+
+==================================================
+2. USER ROLES
+==================================================
+
+Create three roles:
+
+1. Admin
+2. Staff
+3. Customer
+
+ADMIN:
+- Manage everything
+- Manage customers
+- Manage products/services
+- Manage inventory
+- Manage bookings
+- Manage payments
+- Manage invoices
+- Manage staff
+- View analytics
+- View reports
+- Manage business settings
+
+STAFF:
+- View assigned bookings
+- Update booking status
+- Manage inventory availability
+- Update delivery/setup status
+- View customer information
+
+CUSTOMER:
+- Register/login
+- Browse services
+- View product details
+- Check availability
+- Add items to booking cart
+- Select event date/time
+- Enter event location
+- Request quotation
+- Confirm booking
+- Make payment
+- Download invoice
+- View booking history
+
+==================================================
+3. MAIN SERVICE CATEGORIES
+==================================================
+
+Create a service/product catalog.
+
+Categories:
+
+A. TENT HOUSE
+- Tent
+- Shamiyana
+- Canopy
+- Waterproof tent
+- Side curtains
+- Stage
+- Carpet
+- Flooring
+
+B. MANDAP / DECORATION
+- Wedding Mandap
+- Flower decoration
+- Stage decoration
+- Entry gate
+- Backdrop
+- Sofa decoration
+- Table decoration
+- Lighting decoration
+
+C. DJ & SOUND
+- DJ system
+- DJ console
+- Speakers
+- Subwoofer
+- Microphone
+- Amplifier
+- DJ lights
+
+D. LIGHTING
+- Road lights
+- LED lights
+- Flood lights
+- Serial lights
+- Moving head lights
+- Decorative lights
+- Generator
+
+E. FURNITURE
+- Chairs
+- Tables
+- Sofa
+- VIP chairs
+- Dining tables
+- Plastic chairs
+- Stage chairs
+
+F. CAMERA / PHOTOGRAPHY
+- Photographer
+- Videographer
+- DSLR camera
+- 4K camera
+- Drone photography
+- Pre-wedding photography
+- Wedding photography
+- Album
+
+G. VEHICLES / GADI
+- Wedding car
+- Luxury car
+- Bolero
+- Scorpio
+- Innova
+- Bus
+- Pickup vehicle
+- Decoration vehicle
+
+Dynamically allow admin to add more categories and products.
+
+==================================================
+4. PRODUCT MODEL
+==================================================
+
+Every rental product should have:
+
+- Product ID
+- Product name
+- Category
+- Description
+- Images
+- Quantity
+- Available quantity
+- Rental price
+- Unit
+- Security deposit
+- Delivery charge
+- Setup charge
+- Status
+- Location
+- Tags
+
+Examples:
+
+Chair:
+Price: ₹10 per chair
+Unit: Piece
+
+Road Light:
+Price: ₹150 per light
+Unit: Piece
+
+Camera:
+Price: ₹3000 per day
+Unit: Day
+
+Wedding Car:
+Price: ₹5000 per day
+Unit: Day
+
+Mandap:
+Price: ₹15000
+Unit: Event
+
+Catering:
+Price: ₹250 per plate
+Unit: Plate
+
+==================================================
+5. CUSTOMER BOOKING FLOW
+==================================================
+
+Create a professional booking flow:
+
+Step 1:
+Customer selects event type.
+
+Examples:
+- Wedding
+- Birthday
+- Engagement
+- Reception
+- Corporate Event
+- Religious Event
+- Party
+- Other
+
+Step 2:
+Select event date.
+
+Step 3:
+Select start time and end time.
+
+Step 4:
+Enter event location.
+
+Fields:
+- Address
+- City
+- District
+- State
+- Pincode
+
+Step 5:
+Browse categories.
+
+Step 6:
+Select products/services.
+
+Step 7:
+Enter quantity.
+
+Step 8:
+System checks inventory availability.
+
+Step 9:
+Show booking summary.
+
+Example:
+
+Tent       1
+Chair      200
+Table      20
+Road Light 30
+DJ         1
+Camera     2
+Mandap     1
+Car        1
+Catering   300 plates
+
+Step 10:
+Calculate:
+
+Subtotal
++ Delivery Charge
++ Setup Charge
++ Security Deposit
++ Tax if configured
+= Grand Total
+
+Step 11:
+Customer submits booking.
+
+Step 12:
+Admin receives booking request.
+
+==================================================
+6. AVAILABILITY SYSTEM
+==================================================
+
+This is one of the most important features.
+
+Prevent double booking.
+
+Example:
+
+100 chairs available.
+
+Booking A:
+60 chairs
+10 Oct – 11 Oct
+
+Booking B:
+50 chairs
+10 Oct – 11 Oct
+
+Booking B cannot be confirmed because only 40 chairs remain.
+
+The backend must automatically calculate:
+
+total_quantity
+- booked_quantity
+= available_quantity
+
+Check availability based on:
+
+- Product
+- Date
+- Start time
+- End time
+- Quantity
+
+Show:
+
+AVAILABLE
+PARTIALLY AVAILABLE
+NOT AVAILABLE
+
+==================================================
+7. BOOKING STATUS
+==================================================
+
+Create booking statuses:
+
+- Pending
+- Quotation Sent
+- Confirmed
+- Payment Pending
+- Partially Paid
+- Fully Paid
+- Preparing
+- Out for Delivery
+- Setup Started
+- Event Completed
+- Returned
+- Cancelled
+
+Create a visual booking timeline.
+
+==================================================
+8. QUOTATION SYSTEM
+==================================================
+
+Admin should be able to create quotations.
+
+Quotation contains:
+
+Business name
+Customer name
+Customer phone
+Event date
+Event location
+
+Items:
+
+Product
+Quantity
+Unit price
+Total
+
+Charges:
+
+Rental charges
+Delivery charges
+Setup charges
+Discount
+Security deposit
+Tax
+
+Final amount
+
+Generate professional PDF quotation.
+
+Customer can:
+
+Accept quotation
+Reject quotation
+Request changes
+
+==================================================
+9. INVOICE SYSTEM
+==================================================
+
+After confirmation generate invoice.
+
+Invoice should contain:
+
+Invoice number
+Booking ID
+Customer details
+Event details
+Product list
+Quantity
+Price
+Subtotal
+Discount
+Tax
+Delivery charge
+Setup charge
+Security deposit
+Paid amount
+Remaining amount
+Final amount
+
+Buttons:
+
+Download PDF
+Print
+Share
+
+==================================================
+10. PAYMENT SYSTEM
+==================================================
+
+Create payment management.
+
+Payment methods:
+
+- Cash
+- UPI
+- Bank Transfer
+- Card
+- Online Payment
+
+Payment status:
+
+- Pending
+- Partial
+- Paid
+- Failed
+- Refunded
+
+Example:
+
+Total = ₹80,000
+
+Advance = ₹20,000
+
+Remaining = ₹60,000
+
+Show payment history.
+
+==================================================
+11. CUSTOMER DASHBOARD
+==================================================
+
+Create dashboard containing:
+
+Total Bookings
+Upcoming Events
+Pending Payments
+Total Spent
+
+Recent bookings.
+
+Upcoming booking card:
+
+Event:
+Wedding
+
+Date:
+15 November 2026
+
+Location:
+Aurangabad
+
+Amount:
+₹75,000
+
+Status:
+Confirmed
+
+==================================================
+12. ADMIN DASHBOARD
+==================================================
+
+Create a professional dashboard.
+
+Cards:
+
+Total Bookings
+Today's Events
+Upcoming Events
+Total Revenue
+Pending Payments
+Active Customers
+Available Products
+Low Stock Items
+
+Charts:
+
+Monthly Revenue
+Monthly Bookings
+Popular Services
+Booking Status
+Category Revenue
+
+Use Recharts.
+
+==================================================
+13. BOOKING CALENDAR
+==================================================
+
+Create a calendar page.
+
+Admin should see:
+
+Daily bookings
+Weekly bookings
+Monthly bookings
+
+Example:
+
+10 Oct
+Wedding
+200 Chairs
+1 Mandap
+1 DJ
+
+12 Oct
+Birthday
+100 Chairs
+10 Tables
+
+Use different visual indicators for booking status.
+
+Clicking a booking should open booking details.
+
+==================================================
+14. INVENTORY MANAGEMENT
+==================================================
+
+Admin can manage physical inventory.
+
+Example:
+
+Chairs:
+Total: 500
+Available: 300
+Booked: 200
+
+Tables:
+Total: 100
+Available: 70
+Booked: 30
+
+Road Lights:
+Total: 200
+Available: 120
+Booked: 80
+
+Create:
+
+Add Inventory
+Update Inventory
+Delete Inventory
+Stock History
+Damage Tracking
+Lost Items
+Returned Items
+
+==================================================
+15. RETURN MANAGEMENT
+==================================================
+
+After event completion:
+
+Staff checks returned items.
+
+Example:
+
+Issued:
+200 chairs
+
+Returned:
+195
+
+Damaged:
+3
+
+Missing:
+2
+
+Calculate damage/missing charges.
+
+Update inventory automatically.
+
+==================================================
+16. CATERING MODULE
+==================================================
+
+Create special catering management.
+
+Fields:
+
+Menu name
+Food items
+Price per plate
+Veg/Non-Veg
+Number of plates
+Serving time
+
+Example:
+
+Wedding Premium Menu
+
+Price:
+₹450 / plate
+
+Quantity:
+300 plates
+
+Total:
+₹135,000
+
+Allow admin to create custom menus.
+
+==================================================
+17. VEHICLE / GADI MODULE
+==================================================
+
+Create vehicle rental management.
+
+Vehicle fields:
+
+Vehicle number
+Vehicle name
+Vehicle type
+Driver name
+Driver phone
+Price per day
+Price per km
+Availability
+Images
+
+Booking fields:
+
+Pickup location
+Drop location
+Date
+Time
+Driver required
+Number of hours
+Number of kilometers
+
+Calculate vehicle rental automatically.
+
+==================================================
+18. CAMERA / PHOTOGRAPHY MODULE
+==================================================
+
+Create photography booking system.
+
+Services:
+
+Photography
+Videography
+Drone
+Pre-wedding
+Wedding
+Reception
+Album
+
+Allow selecting:
+
+Photographer
+Camera
+Number of hours
+Event date
+Delivery date
+
+==================================================
+19. CUSTOMER MANAGEMENT
+==================================================
+
+Admin can manage:
+
+Customer name
+Phone
+Email
+Address
+Total bookings
+Total spending
+Pending amount
+
+Customer detail page should show complete booking history.
+
+==================================================
+20. SEARCH AND FILTER
+==================================================
+
+Add global search.
+
+Search:
+
+Products
+Customers
+Bookings
+Invoices
+Vehicles
+
+Filters:
+
+Category
+Price
+Availability
+Date
+Status
+
+==================================================
+21. NOTIFICATIONS
+==================================================
+
+Create notification system.
+
+Notifications for:
+
+New booking
+Booking confirmed
+Quotation generated
+Payment received
+Payment pending
+Upcoming event
+Booking cancelled
+Return pending
+
+==================================================
+22. WHATSAPP / MESSAGE SUPPORT
+==================================================
+
+Add buttons:
+
+"Send Booking Details"
+
+"Send Payment Reminder"
+
+"Send Invoice"
+
+"Send Quotation"
+
+Prepare WhatsApp message dynamically.
+
+Do not hard-code customer data.
+
+==================================================
+23. DATABASE DESIGN
+==================================================
+
+Create PostgreSQL tables:
+
+users
+roles
+customers
+categories
+products
+product_images
+inventory
+inventory_transactions
+vehicles
+drivers
+services
+bookings
+booking_items
+booking_status_history
+event_locations
+quotations
+quotation_items
+invoices
+invoice_items
+payments
+catering_menus
+catering_items
+photography_services
+notifications
+staff
+audit_logs
+business_settings
+
+Use proper:
+
+Primary Keys
+Foreign Keys
+Indexes
+Unique Constraints
+Created timestamps
+Updated timestamps
+
+==================================================
+24. API STRUCTURE
+==================================================
+
+Create clean REST APIs.
+
+Authentication:
+
+POST /api/auth/register
+POST /api/auth/login
+GET /api/auth/me
+
+Products:
+
+GET /api/products
+GET /api/products/{id}
+POST /api/products
+PUT /api/products/{id}
+DELETE /api/products/{id}
+
+Categories:
+
+GET /api/categories
+POST /api/categories
+PUT /api/categories/{id}
+DELETE /api/categories/{id}
+
+Bookings:
+
+GET /api/bookings
+GET /api/bookings/{id}
+POST /api/bookings
+PUT /api/bookings/{id}
+DELETE /api/bookings/{id}
+
+Availability:
+
+GET /api/availability
+
+Quotation:
+
+POST /api/quotations
+GET /api/quotations/{id}
+PUT /api/quotations/{id}
+
+Invoices:
+
+POST /api/invoices
+GET /api/invoices/{id}
+GET /api/invoices/{id}/pdf
+
+Payments:
+
+POST /api/payments
+GET /api/payments
+
+Inventory:
+
+GET /api/inventory
+POST /api/inventory
+PUT /api/inventory/{id}
+
+Customers:
+
+GET /api/customers
+GET /api/customers/{id}
+
+Dashboard:
+
+GET /api/dashboard/stats
+GET /api/dashboard/revenue
+GET /api/dashboard/bookings
+
+==================================================
+25. SECURITY
+==================================================
+
+Implement:
+
+JWT authentication
+Password hashing
+Role-based authorization
+Protected routes
+Input validation
+CORS configuration
+SQL injection protection
+API validation
+Rate limiting where appropriate
+Secure environment variables
+
+Never store secrets in source code.
+
+Use .env:
+
+DATABASE_URL=
+SECRET_KEY=
+ACCESS_TOKEN_EXPIRE_MINUTES=
+CLOUDINARY_URL=
+
+==================================================
+26. FRONTEND PAGES
+==================================================
+
+Public:
+
+/
+ /services
+ /services/:id
+ /categories
+ /about
+ /contact
+ /login
+ /register
+
+Customer:
+
+/dashboard
+/my-bookings
+/bookings/:id
+/create-booking
+/cart
+/checkout
+/payments
+/profile
+
+Admin:
+
+/admin
+/admin/dashboard
+/admin/bookings
+/admin/calendar
+/admin/products
+/admin/categories
+/admin/inventory
+/admin/customers
+/admin/vehicles
+/admin/catering
+/admin/photography
+/admin/quotations
+/admin/invoices
+/admin/payments
+/admin/staff
+/admin/reports
+/admin/settings
+
+==================================================
+27. UI DESIGN
+==================================================
+
+Create a modern professional SaaS-style UI.
+
+Use:
+
+- Responsive design
+- Mobile-first layout
+- Sidebar dashboard
+- Top navbar
+- Cards
+- Tables
+- Modal dialogs
+- Forms
+- Toast notifications
+- Loading skeletons
+- Empty states
+- Confirmation dialogs
+- Pagination
+- Search
+- Filters
+
+Design should look like a real commercial application, not a basic student project.
+
+Use consistent typography, spacing and reusable components.
+
+==================================================
+28. IMPORTANT UX
+==================================================
+
+The booking process should be very easy.
+
+Use:
+
+Service selection
+→ Date selection
+→ Availability
+→ Quantity
+→ Location
+→ Price calculation
+→ Customer details
+→ Payment
+→ Confirmation
+
+Show live price calculation.
+
+Example:
+
+Chair:
+200 × ₹10 = ₹2,000
+
+Road Light:
+30 × ₹150 = ₹4,500
+
+DJ:
+1 × ₹8,000 = ₹8,000
+
+Camera:
+2 × ₹3,000 = ₹6,000
+
+Subtotal:
+₹20,500
+
+Delivery:
+₹2,000
+
+Setup:
+₹3,000
+
+Total:
+₹25,500
+
+==================================================
+29. REPORTS
+==================================================
+
+Admin reports:
+
+Daily revenue
+Monthly revenue
+Yearly revenue
+Booking report
+Product utilization
+Most booked services
+Pending payments
+Customer report
+Inventory report
+Cancelled bookings
+
+Allow CSV/PDF export.
+
+==================================================
+30. PROJECT STRUCTURE
+==================================================
+
+Create a clean monorepo:
+
+eventhub/
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── layouts/
+│   │   ├── hooks/
+│   │   ├── services/
+│   │   ├── store/
+│   │   ├── types/
+│   │   └── utils/
+│   └── package.json
+│
+├── backend/
+│   ├── app/
+│   │   ├── api/
+│   │   ├── models/
+│   │   ├── schemas/
+│   │   ├── services/
+│   │   ├── repositories/
+│   │   ├── core/
+│   │   └── main.py
+│   ├── tests/
+│   └── requirements.txt
+│
+├── docker-compose.yml
+├── README.md
+└── .env.example
+
+==================================================
+31. TESTING
+==================================================
+
+Add:
+
+Backend unit tests
+API tests
+Authentication tests
+Booking availability tests
+Payment tests
+
+Especially test:
+
+Prevent double booking.
+
+Example:
+
+Inventory = 100 chairs
+
+Booking 1 = 70 chairs
+
+Booking 2 = 50 chairs
+
+Booking 2 should fail because only 30 chairs remain.
+
+==================================================
+32. SAMPLE DATA
+==================================================
+
+Seed realistic Indian event rental data.
+
+Categories:
+
+Tent House
+Mandap
+DJ & Sound
+Lighting
+Furniture
+Camera
+Vehicles
+Catering
+Decoration
+
+Create at least:
+
+10 customers
+30 products
+10 bookings
+5 vehicles
+5 catering menus
+10 invoices
+
+Use realistic INR pricing.
+
+==================================================
+33. IMPORTANT BUSINESS LOGIC
+==================================================
+
+Implement proper rental date overlap logic.
+
+If:
+
+Booking A:
+01 Nov 2026 - 03 Nov 2026
+
+Booking B:
+02 Nov 2026 - 04 Nov 2026
+
+The system must detect overlapping inventory usage.
+
+Do not allow unavailable inventory to be booked.
+
+Also support cancellation and inventory release.
+
+==================================================
+34. FINAL REQUIREMENTS
+==================================================
+
+Build the application step-by-step.
+
+First create:
+
+1. Database models
+2. FastAPI backend
+3. Authentication
+4. Product APIs
+5. Availability APIs
+6. Booking APIs
+7. Payment APIs
+8. React frontend
+9. Admin dashboard
+10. Customer dashboard
+11. Calendar
+12. Invoice/quotation system
+13. Inventory management
+14. Testing
+15. Docker configuration
+16. README
+
+Do not create fake buttons that do nothing.
+
+All major buttons must connect to real frontend functionality and backend APIs.
+
+Use realistic error handling.
+
+Show proper loading states.
+
+Show proper success/error messages.
+
+Write clean maintainable production-style code.
+
+The final application should be deployable and suitable as a strong portfolio project demonstrating:
+
+React.js
+TypeScript
+Python
+FastAPI
+PostgreSQL
+REST APIs
+Authentication
+Redux
+Inventory management
+Booking systems
+Payment management
+PDF generation
+Role-based access
+Database design
+Business logic
+Responsive UI
